@@ -364,17 +364,33 @@ export default class Display {
             return;
         }
 
-        const img = new Image();
-        img.src = "data: " + mime + ";base64," + Base64.encode(arr);
+        if (window.createImageBitmap) {
+            let blob = new Blob([arr], { type: mime });
+            createImageBitmap(blob)
+            .then((img) => {
+                img.complete = true;
+                this._renderQPush({
+                    'type': 'img',
+                    'img': img,
+                    'x': x,
+                    'y': y,
+                    'width': width,
+                    'height': height
+                });
+            });
+        } else {
+            const img = new Image();
+            img.src = "data: " + mime + ";base64," + Base64.encode(arr);
 
-        this._renderQPush({
-            'type': 'img',
-            'img': img,
-            'x': x,
-            'y': y,
-            'width': width,
-            'height': height
-        });
+            this._renderQPush({
+                'type': 'img',
+                'img': img,
+                'x': x,
+                'y': y,
+                'width': width,
+                'height': height
+            });
+        }
     }
 
     // start updating a tile
