@@ -366,17 +366,14 @@ export default class Display {
 
         if (window.createImageBitmap) {
             let blob = new Blob([arr], { type: mime });
-            createImageBitmap(blob)
-            .then((img) => {
-                img.complete = true;
-                this._renderQPush({
-                    'type': 'img',
-                    'img': img,
-                    'x': x,
-                    'y': y,
-                    'width': width,
-                    'height': height
-                });
+            const promisedImg = createImageBitmap(blob);
+            this._renderQPush({
+                'type': 'promisedImg',
+                'promisedImg': promisedImg,
+                'x': x,
+                'y': y,
+                'width': width,
+                'height': height
             });
         } else {
             const img = new Image();
@@ -655,6 +652,14 @@ export default class Display {
                         ready = false;
                     }
                     break;
+                case 'promisedImg':
+                    ready = false;
+                    a.promisedImg.then((img) => {
+                        a.type = 'img';
+                        a.img = img;
+                        a.img.complete = true;
+                        this._scanRenderQ();
+                    });
             }
 
             if (ready) {
