@@ -588,11 +588,6 @@ export default class RFB extends EventTargetMixin {
     }
 
     _focusCanvas(event) {
-        // Respect earlier handlers' request to not do side-effects
-        if (event.defaultPrevented) {
-            return;
-        }
-
         if (!this.focusOnClick) {
             return;
         }
@@ -2887,9 +2882,9 @@ RFB.messages = {
         buff[offset + 12] = 0;   // blue-max
         buff[offset + 13] = (1 << bits) - 1; // blue-max
 
-        buff[offset + 14] = bits * 2; // red-shift
+        buff[offset + 14] = bits * 0; // red-shift
         buff[offset + 15] = bits * 1; // green-shift
-        buff[offset + 16] = bits * 0; // blue-shift
+        buff[offset + 16] = bits * 2; // blue-shift
 
         buff[offset + 17] = 0;   // padding
         buff[offset + 18] = 0;   // padding

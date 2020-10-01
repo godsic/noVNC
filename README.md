@@ -1,6 +1,7 @@
 ## noVNC: HTML VNC Client Library and Application
 
-[![Build Status](https://travis-ci.org/novnc/noVNC.svg?branch=master)](https://travis-ci.org/novnc/noVNC)
+[![Test Status](https://github.com/novnc/noVNC/workflows/Test/badge.svg)](https://github.com/novnc/noVNC/actions?query=workflow%3ATest)
+[![Lint Status](https://github.com/novnc/noVNC/workflows/Lint/badge.svg)](https://github.com/novnc/noVNC/actions?query=workflow%3ALint)
 
 ### Description
 
@@ -69,6 +70,7 @@ Please tweet [@noVNC](http://www.twitter.com/noVNC) if you do.
 * Local cursor rendering
 * Clipboard copy/paste
 * Translations
+* Touch gestures for emulating common mouse actions
 * Licensed mainly under the [MPL 2.0](http://www.mozilla.org/MPL/2.0/), see
   [the license document](LICENSE.txt) for details
 

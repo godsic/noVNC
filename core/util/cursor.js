@@ -125,8 +125,16 @@ export default class Cursor {
         if (!useFallback) {
             return;
         }
-        this._position.x = clientX;
-        this._position.y = clientY;
+        // clientX/clientY are relative the _visual viewport_,
+        // but our position is relative the _layout viewport_,
+        // so try to compensate when we can
+        if (window.visualViewport) {
+            this._position.x = clientX + window.visualViewport.offsetLeft;
+            this._position.y = clientY + window.visualViewport.offsetTop;
+        } else {
+            this._position.x = clientX;
+            this._position.y = clientY;
+        }
         this._updatePosition();
         let target = document.elementFromPoint(clientX, clientY);
         this._updateVisibility(target);
@@ -171,6 +179,10 @@ export default class Cursor {
         // should be visible.
         if (this._captureIsActive()) {
             window.setTimeout(() => {
+                // We might have detached at this point
+                if (!this._target) {
+                    return;
+                }
                 // Refresh the target from elementFromPoint since queued events
                 // might have altered the DOM
                 target = document.elementFromPoint(event.clientX,
